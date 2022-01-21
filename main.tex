@@ -1,0 +1,174 @@
+\documentclass{mimosis}
+
+\usepackage{metalogo}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Some of my favourite personal adjustments
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% These are the adjustments that I consider necessary for typesetting
+% a nice thesis. However, they are *not* included in the template, as
+% I do not want to force you to use them.
+
+% This ensures that I am able to typeset bold font in table while still aligning the numbers
+% correctly.
+\usepackage{etoolbox}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Hyperlinks & bookmarks
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage[%
+  colorlinks = true,
+  citecolor  = RoyalBlue,
+  linkcolor  = RoyalBlue,
+  urlcolor   = RoyalBlue,
+  unicode,
+  ]{hyperref}
+
+\usepackage{bookmark}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Bibliography
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% I like the bibliography to be extremely plain, showing only a numeric
+% identifier and citing everything in simple brackets. The first names,
+% if present, will be initialized. DOIs and URLs will be preserved.
+
+\usepackage[%
+  autocite     = plain,
+  backend      = biber,
+  doi          = true,
+  url          = true,
+  giveninits   = true,
+  hyperref     = true,
+  maxbibnames  = 99,
+  maxcitenames = 99,
+  sortcites    = true,
+  style        = ieee, % style = numeric
+  ]{biblatex}
+
+%\input{bibliography-mimosis}
+\addbibresource{references.bib}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Fonts
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\ifxetexorluatex
+  %\setmainfont{EB Garamond}
+  %\setmonofont[Scale=MatchLowercase]{Source Code Pro}
+\else
+  \usepackage[lf]{ebgaramond}
+  \usepackage[oldstyle,scale=0.7]{sourcecodepro}
+  \singlespacing
+\fi
+
+\newacronym                                            {DFP}{DFP}{Degree Final Project}
+\newacronym                                            {OCR}{OCR}{Optical character recognition}
+\newacronym                                            {API}{API}{Application programming interface}
+\newacronym                                            {IDE}{IDE}{Integrated development environment}
+\newacronym                                            {CLI}{CLI}{Command line interface}
+
+\newglossaryentry{Hangeul}{%
+  name        = {\textit{Hangeul}},
+  description = {Korean language native script},
+  sort        = {Hangeul},
+}
+
+\makeindex
+\makeglossaries
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Incipit
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{lipsum}
+\usepackage{kotex}
+\usepackage{subcaption}
+\usepackage{rotating}
+\usepackage{pdfpages}
+\usepackage{amssymb}
+
+\titlehead{	
+	\includegraphics[height=25mm]{Figures/logo_ual.png}
+	\hfill
+	\includegraphics[height=25mm]{Figures/logo_esi.png}
+}
+\subject{Grado en Ingeniería Informática}
+
+\title{Identificación de alérgenos a partir de productos envasados para extranjeros residentes en Corea}
+\subtitle{Trabajo Fin de Grado}
+\author{Alonso Bravo Moyano}
+\date{Curso académico 2021-2022} %September 2021 %\today
+
+\publishers{\textbf{Directores:}\\Rafael Guirado Clavijo\\José Fernando Bienvenido Bárcena}
+
+\begin{document}
+
+\includepdf[]{Cover/PortadaTFG.pdf}
+
+\frontmatter
+%     \dedication{To my treasured hazel-hen\\
+% in eternal love\\
+% from your dormouse.}
+
+    \maketitle
+    \include{Sources/Abstract}
+    \tableofcontents
+    \listoffigures
+    \listoftables
+    
+
+\mainmatter
+    % \part[Primera parte]{%
+    %     A good part\\
+    %     %
+    %     \vspace{1cm}
+    %     %
+    %     \begin{minipage}[l]{\textwidth}
+    %     %
+    %     \textnormal{%
+    %       \normalsize
+    %       %
+    %       \begin{singlespace*}
+    %         \onehalfspacing
+    %         %
+    %         \lipsum[1]
+    %       \end{singlespace*}
+    %     }
+    %     \end{minipage}
+    %   }
+
+    \include{Sources/Introduction}
+    \include{Sources/State}
+    \include{Sources/Phases}
+    \include{Sources/Methodology}
+    \include{Sources/Tools}
+    \include{Sources/Development}
+    \include{Sources/Results}
+    \include{Sources/Conclusions}
+    
+    \appendix
+    \include{Sources/Appendix}
+
+% This ensures that the subsequent sections are being included as root
+% items in the bookmark structure of your PDF reader.
+\bookmarksetup{startatroot}
+\backmatter
+
+  \begingroup
+    \let\clearpage\relax
+    \glsaddall
+    \printglossary[type=\acronymtype]
+    \newpage
+    \printglossary
+  \endgroup
+
+  \printindex
+  \printbibliography
+  
+  \includepdf[]{Cover/ContraportadaTFG.pdf}
+  
+\end{document}
