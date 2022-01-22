@@ -70,11 +70,17 @@
 \newacronym                                            {API}{API}{Application programming interface}
 \newacronym                                            {IDE}{IDE}{Integrated development environment}
 \newacronym                                            {CLI}{CLI}{Command line interface}
+\newacronym                                            {AVD}{AVD}{Android virtual device}
 
 \newglossaryentry{Hangeul}{%
   name        = {\textit{Hangeul}},
   description = {Korean language native script},
   sort        = {Hangeul},
+}
+\newglossaryentry{Codebase}{%
+  name        = {Codebase},
+  description = {Complete collection of source code used to built a particular application or system},
+  sort        = {Codebase},
 }
 
 \makeindex
@@ -90,6 +96,11 @@
 \usepackage{rotating}
 \usepackage{pdfpages}
 \usepackage{amssymb}
+\usepackage{minted}
+\usepackage{caption}
+\newenvironment{code}{\captionsetup{type=listing}}{}
+
+\counterwithin{listing}{chapter}
 
 \titlehead{	
 	\includegraphics[height=25mm]{Figures/logo_ual.png}
@@ -119,6 +130,7 @@
     \tableofcontents
     \listoffigures
     \listoftables
+    \listoflistings
     
 
 \mainmatter
