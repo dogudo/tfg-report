@@ -6,11 +6,10 @@ In this chapter, we will thoroughly describe the tools, technologies and other m
 Besides, for some of them we will also provide a comparison with other similar options and justify why it was finally decided to choose them for this project over the rest of available solutions. As a summary, the tools and technologies that were used to plan and develop the mobile application are the following:
 
 \begin{itemize}
-\item During the preprocessing of the input images, use will be made of the OpenCV \cite{noauthor_opencv_2021} library for artificial vision, open source and available for Python \cite{noauthor_python_2021} through OpenCV-Python \cite{noauthor_opencv-python_2021}.
-\item To capture the text, we will work with the Tesseract \cite{noauthor_tesseract_2021} optical character recognition engine, also open source, and with the Python-tesseract wrapper \cite{lee_pytesseract_2021}.
-\item In the case of post-processing the text and obtaining the list of ingredients, use will be made of the library of tools for natural language processing NLTK \cite{noauthor_natural_2021}.
-\item The database will be created and maintained using the MySQL relational management system \cite{noauthor_mysql_2021}.
-\item The application for Android devices will be implemented using the Flutter software development kit \cite{noauthor_flutter_2021}.
+\item For building the Android mobile application we will make use of the open-source Flutter framework \cite{noauthor_flutter_2021}, which also supports a wide variety of plugins for OCR, database management, UI design, etc.
+\item To capture the text, we will work with the ML Kit SDK \cite{noauthor_ml_nodate} which includes an optical character recognition model, also open-source, and with the Flutter plugin \texttt{google\_ml\_kit} \cite{noauthor_google_ml_kit_nodate}.
+\item In the case of post-processing the text and translating any ingredients not included in the database, we will make use of the Papago API \cite{noauthor__nodate} provided by Naver.
+\item The database will be created and maintained using the SQLite relational management system \cite{noauthor_sqlite_nodate}.
 \item The development of all the code will be done using the Visual Studio Code text editor \cite{noauthor_documentation_2021}, as well as the Android Studio IDE \cite{noauthor_introduccion_2021}. The source code control will be done with Git \cite{noauthor_git_2021} and GitHub \cite{noauthor_githubcom_2021}.
 \end{itemize}
 
@@ -140,7 +139,7 @@ Flutter plugins or packages are libraries of code that expand the capabilities o
   \label{fig:pub}
 \end{figure}
 
-In the development of our application we had to incorporate up to seven new dependencies into our codebase. Some of the most interesting ones are listed below:
+During the development of our application we had to incorporate up to seven new dependencies into our Flutter codebase. Some of the most interesting ones are listed below:
 
 \begin{itemize}
 \item \textbf{\texttt{google\_ml\_kit}} \cite{noauthor_google_ml_kit_nodate}: recently released plugin that provides an easy way to implement Google's standalone ML Kit in a Flutter app instead of on a native Android one. It will be broadly discussed on the next section.
@@ -153,9 +152,18 @@ In the development of our application we had to incorporate up to seven new depe
 
 This section will further explain two of the main technologies at the core of the mobile application, its text recognition system and its translation system, and justify the choice of these solutions.
 
-\subsection{Google ML Kit}
+\subsection{ML Kit}
 
-Google Ml Kit \cite{noauthor_ml_nodate} is a mobile SDK that provides on-device machine learning solutions to both Android and iOS apps. By default, only native Android apps are supported by this SDK. However, by using the \texttt{google\_ml\_kit} plugin previously mentioned, it is considerably simpler to make use of this technology on a Flutter application.
+Google ML Kit \cite{noauthor_ml_nodate} is a mobile SDK that provides on-device machine learning solutions to both Android and iOS apps. By default, only native Android apps are supported by this SDK. However, by using the \texttt{google\_ml\_kit} plugin previously mentioned, it is considerably simpler to make use of this technology on a Flutter application. ML Kit's logotype is shown in Figure \ref{fig:ml-kit}.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.5\textwidth]{Figures/ml-kit.png}
+  \caption{%
+    ML Kit's logotype.
+  }
+  \label{fig:ml-kit}
+\end{figure}
 
 Even though initially this technology did not support Korean language for its text recognition models, support for non-Latin scripts like \textit{hangeul} among others was added on a beta update released on August of 2021. This allows for accurate Korean text recognition without needing to incur on external API additional costs, since all the processing is done on-device. On the downside, the size of the application increases considerably, up to 400 MB.
 
@@ -163,7 +171,107 @@ In addition to this text recognition API, an on-device translation API is also p
 
 \subsection{Papago API}
 
+Papago is a translation service developed by Naver, one of the companies leading the technology sector in South Korea. It is one of the most used translation services along with Google Translate, and supports up to 15 languages including Korean, English and Spanish. Its logo is shown in Figure \ref{fig:papago}.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.5\textwidth]{Figures/papago.png}
+  \caption{%
+    Papago's logotype.
+  }
+  \label{fig:papago}
+\end{figure}
+
+Fortunately, Naver provides a quite generous RESTful API service for Papago, providing free translations of up to 10000 characters per day when registering our application in their system. This limit can be seen on Figure \ref{fig:papago-limit} and is one of the main reasons for choosing this service, as Google Translate API is paid since the first query. One other relevant reason being that, in the author experience, Papago provides more accurate and consistent translations than other services when working between English and Korean languages.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\textwidth]{Figures/papago-limit.png}
+  \caption{%
+    Papago's API daily character limit.
+  }
+  \label{fig:papago-limit}
+\end{figure}
+
 \section{Database}
+
+This section we will discuss the database engine utilized for the backend of this project. We will also introduce the tools that were used for the management of the databases, as well as explaining the source of the data that provides the list of ingredients, categories, etc.
+
+\subsection{SQLite}
+
+SQLite \cite{noauthor_sqlite_nodate} is a relational database engine which is contained on a small library written in C. It is one of the most used database engines in the world as it is cross-platform and relatively light and simple. Its logotype is shown in Figure \ref{fig:sqlite}.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.5\textwidth]{Figures/sqlite.png}
+  \caption{%
+    SQLite's logotype.
+  }
+  \label{fig:sqlite}
+\end{figure}
+
+The main difference between SQLite and other database engines is that SQLite is not an independent process from the application that it supports. Instead, the SQLite library is directly linked with the code of the application, as opposed to other systems and engines that maintain a client-server structure. The diagram in Figure \ref{fig:sqlite-architecture} provides a comprehensible overview of the differences in the architecture.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\textwidth]{Figures/sqlite-architecture.png}
+  \caption{%
+    Comparison between SQLite and traditional client-server
+  }
+  \label{fig:sqlite-architecture}
+\end{figure}
+
+This is one of the main reasons for choosing SQLite for this project and why it is so popular for other Flutter projects, since we only need a small and user dependent database with few tables that also supports offline access.
+
+\subsection{DB Browser for SQLite}
+
+DB Browser for SQLite \cite{noauthor_db_nodate}, abbreviated DB4S, is a GUI client for browsing and modifying database files compatible with SQLite. It uses a spreadsheet-like interface as most other GUI database editors, and provides several shortcuts for some of the most common SQLite commands. Its logotype is shown in Figure \ref{fig:db4s}.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.25\textwidth]{Figures/db4s.png}
+  \caption{%
+    DB Browser for SQLite's logotype
+  }
+  \label{fig:db4s}
+\end{figure}
+
+We made use of this tool because we needed to manually edit some of the data obtained from the data sources listed in the next section. Though this is doable on a CLI interface, it is certainly much more inconvenient and time consuming for finicky tasks like this one. We can have a look at DB Browser for SQLite's interface in Figure \ref{fig:db4s-screen}.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\textwidth]{Figures/db4s-screen.png}
+  \caption{%
+    DB Browser for SQLite's user interface
+  }
+  \label{fig:db4s-screen}
+\end{figure}
+
+\subsection{Data source}
+
+In order to develop the backend of the application we need a pre-made list of one of the ingredients most commonly used in Korea as well as their translations to English. This data source was eventually found in the Food Safety Korea portal \cite{noauthor__nodate-1}, an organism dependent of the Ministry of Food and Drug safety of South Korea. A screenshot of this website is shown in Figure \ref{fig:fsk}.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\textwidth]{Figures/fsk.png}
+  \caption{%
+    Screenshot of the Food Safety Korea website
+  }
+  \label{fig:fsk}
+\end{figure}
+
+This website is a portal which offers direct access to several search engines, APIs and databases to collect every possible data source related to food safety in South Korea. Among all of these sources we chose the Food Composition Database search \cite{noauthor_food_nodate}, which is also listed in the Food and Agriculture Organization (FAO) of the UN as the reference for ingredients list in Korea.
+
+After filing a small questionnaire this dataset was provided as an Excel spreadsheet, which needed to be cleaned out of redundant entries and converted to a CSV file in order to be imported into a table in our database using DB Browser for SQLite. The initial Excel file had the appearance shown in Figure \ref{fig:fsk-data}.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\textwidth]{Figures/fsk-data.png}
+  \caption{%
+    Excel file provided by Food Safety Korea
+  }
+  \label{fig:fsk-data}
+\end{figure}
 
 \section{Development}
 
@@ -332,6 +440,10 @@ One of the main advantages of \LaTeX\ is that it has a large community and there
 For this report we used a modified version of the \texttt{latex-mimosis} template by Bastian Rieck \cite{rieck_latex-mimosis_2022}, which is designed for typesetting thesis-like documents and is publicly hosted on a GitHub repository\footnote{Available at: \url{github.com/Pseudomanifold/latex-mimosis}}.
 
 \subsection{Overleaf}
+
+Overleaf \cite{noauthor_documentation_nodate} is a \LaTeX\ editor available on the cloud. This is particularly interesting because it allows the use of \LaTeX\ without needing to perform a full installation on the user device, which can usually be very heavyweight. Another interesting feature of this editor is that it allows collaborative editing, in a similar way as other options like Google Docs.
+
+It was chosen as the editor of choice for writing this report in order to save time, as the package management when using other client-based options like TeXmaker or Lyx can often get quite tedious. Another needed feature about Overleaf is its direct integration with GitHub, allowing to commit and push changes from the browser. This also allows us to keep a backup of the document in the cloud in order to prevent any possible loss of data.
 
 \subsection{Zotero}
 
