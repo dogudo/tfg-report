@@ -7,4 +7,27 @@ This way, we will comment on the final outcome of our implementation, reflect on
 
 \section{Conclusions}
 
+This Degree Final Project had as its main objective the development of a novel mobile application to overcome the language barrier and provide people with all kinds of food intolerance (be it because of allergies, religion, or any other dietary need) with a reliable solution when travelling to South Korea. 
+
+In this sense, one of the main challenges found during development came as early as in the stage of planning. Not too many previous references were available in the literature, and the selection of this topic meant that we would work on many environments that were not explored during the degree courses, such as OCR systems or Android development in a framework like Flutter. Because of this, tackling the problem with the right set of technologies and tools only came after trial and error, researching other solutions like Tesseract \cite{noauthor_tesseract_2021} along the way. In the end, the development flowed through the path of least resistance, transitioning to those technologies that yielded the best results while presenting less issues throughout the implementation.
+
+Another hurdle that was overcome along the way was the finding of adequate an dataset to feed our application. A modest knowledge of Korean language was often not sufficient to browse through some of the sources, but using automatically generated data was early discarded since on practice the ingredients used in Korean products can vary greatly from those used in Europe. The data source that was eventually found, despite needing many manual work and cleaning, proved to be a good fit for our application.
+
+Already on the implementation, this stage represented an unmatched opportunity to delve into a new field as is Android development, and particularly into the Flutter framework. Coming from the Swift framework studied in \textit{Lines of Software Products}, the switch to the widget architecture and lack of a visual editor took some time of adjustment. Inevitably, the implementation overlapped with the learning phase as the need arose, needing to research about UI design, concurrent programming, DB management and many other areas of a multidisciplinary field as is the programming of mobile apps.
+
+After all of this processes, the end result was satisfactory. The outcome of this project, our finished mobile app, was able to perform adequately when solving the problem presented by performing an accurate OCR and providing flexibility to the user. This effectively constitutes a novel solution for patients of allergies residing in a foreign country, as our app is able to detect allergens across different languages while other existing tools fail when reading text in a foreign language or script. With these promising results, we hope this app may someday assist people with food intolerances on a real scenario.
+
+On a personal level, the development of this DFP was immensely helpful at providing the experience of working in a project of this entity while leveraging the knowledge and skills acquired in the Informatics Engineering field through these last four years.
+
 \section{Future work}
+
+Because of the limited amount of time available to complete this DFP, potential ideas to further iterate and upgrade the mobile application were left out of the scope of this release, though they can represent a good opportunity to keep developing and improving this software in the future. Some of these prospective features are listed below:
+
+\begin{itemize}
+\item With the adequate tools and data, one of the most interesting features would adding support for other languages and scripts. For example, since ML Kit already allows OCR over other scripts in East Asia such as Chinese or Japanese, text recognition for these languages may be easily ported into the app.
+\item Multi-platform support could be added, supporting Android and iOS devices and potentially even a web app if the Flutter framework continues evolving.
+\item Add a feature that allows the user to also scan the nutritional value from the package of a food product. The main reason is that not all dietary needs are based of the product ingredients, with some requiring an analysis of the calories, sodium content, proteins, etc.
+\item Implement the option to create some \textit{presets}, or custom groups that may include all the unwanted ingredients for a given dietary need. For example, the user may create a vegetarian group, and add every non-vegetarian ingredients to the list. 
+\item Allow the users to contribute to the application. For example, any user may upload a missing ingredient to the database, which would be added after moderation and approval.
+\end{itemize}
+
